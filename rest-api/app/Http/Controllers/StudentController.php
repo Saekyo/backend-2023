@@ -79,4 +79,60 @@ class StudentController extends Controller
             return response()->json($response, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 	}
+
+    public function edit(Request $request, $id)
+    {
+        try {
+            $student = Student::find($id);
+
+            if ($student) {
+                $response = [
+                    'status' => HttpResponse::HTTP_OK,
+                    'message' => 'Menampilkan Data Siswa',
+                    'data' => $student,
+                ];
+                return response()->json($response, HttpResponse::HTTP_OK);
+            } else {
+                $response = [
+                    'status' => HttpResponse::HTTP_NOT_FOUND,
+                    'message' => 'Data tidak ada'
+                ];
+                return response()->json($response, HttpResponse::HTTP_NOT_FOUND);
+            }
+        } catch (\Throwable $th) {
+            $response = [
+                'status' => HttpResponse::HTTP_INTERNAL_SERVER_ERROR,
+                'message' => 'Internal Server Error'
+            ];
+            return response()->json($response, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $student = Student::find($id);
+
+            if ($student) {
+                $student->delete();
+                $response = [
+                    'status' => HttpResponse::HTTP_OK,
+                    'message' => 'Data Siswa Berhasil Dihapus',
+                ];
+                return response()->json($response, HttpResponse::HTTP_OK);
+            } else {
+                $response = [
+                    'status' => HttpResponse::HTTP_NOT_FOUND,
+                    'message' => 'Data tidak ada'
+                ];
+                return response()->json($response, HttpResponse::HTTP_NOT_FOUND);
+            }
+        } catch (\Throwable $th) {
+            $response = [
+                'status' => HttpResponse::HTTP_INTERNAL_SERVER_ERROR,
+                'message' => 'Internal Server Error'
+            ];
+            return response()->json($response, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
